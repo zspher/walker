@@ -6,11 +6,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1756877218,
-        "narHash": "sha256-kZsR1w8y48q/4esRTF7TppUqR29MvCsjXpEu90fV1wA=",
+        "lastModified": 1757100854,
+        "narHash": "sha256-1T5EGRFQ1OWOnCxKpT24KiEsPstuj3UlgF3ZbyoIt2A=",
         "owner": "abenz1267",
         "repo": "elephant",
-        "rev": "bf37c494ccc4b6b8129fd74741765804abdb8c60",
+        "rev": "a09e94041691720011c289f9a935788eca0ad457",
         "type": "github"
       },
       "original": {
