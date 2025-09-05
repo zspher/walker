@@ -1,25 +1,26 @@
-{ self, elephant }:
 {
+  self,
+  elephant,
+}: {
   config,
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (lib.modules) mkIf mkDefault mkMerge;
   inherit (lib.options) mkOption mkEnableOption mkPackageOption;
   inherit (lib.trivial) importTOML;
   inherit (lib.meta) getExe;
-  inherit (lib.types)
+  inherit
+    (lib.types)
     nullOr
     bool
     path
     ;
 
-  tomlFormat = pkgs.formats.toml { };
+  tomlFormat = pkgs.formats.toml {};
   cfg = config.programs.walker;
-in
-{
+in {
   imports = [
     elephant.homeManagerModules.default
   ];
@@ -59,7 +60,7 @@ in
 
       elephant = mkOption {
         inherit (tomlFormat) type;
-        default = { };
+        default = {};
         description = "Configuration for elephant";
       };
     };
@@ -68,13 +69,13 @@ in
   config = mkIf cfg.enable (mkMerge [
     {
       programs.elephant = mkMerge [
-        { enable = true; }
+        {enable = true;}
         cfg.elephant
       ];
 
-      home.packages = [ cfg.package ];
+      home.packages = [cfg.package];
 
-      xdg.configFile."walker/config.toml".source = mkIf (cfg.config != { }) (
+      xdg.configFile."walker/config.toml".source = mkIf (cfg.config != {}) (
         tomlFormat.generate "walker-config.toml" cfg.config
       );
 
@@ -86,14 +87,14 @@ in
             "graphical-session.target"
             "elephant.service"
           ];
-          Requires = [ "elephant.service" ];
-          PartOf = [ "graphical-session.target" ];
+          Requires = ["elephant.service"];
+          PartOf = ["graphical-session.target"];
         };
         Service = {
           ExecStart = "${getExe cfg.package} --gapplication-service";
           Restart = "on-failure";
         };
-        Install.WantedBy = [ "graphical-session.target" ];
+        Install.WantedBy = ["graphical-session.target"];
       };
     }
 

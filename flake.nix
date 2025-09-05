@@ -17,9 +17,7 @@
     ...
   }: let
     inherit (nixpkgs) lib;
-    eachSystem = f:
-      lib.genAttrs (import systems)
-      (system: f nixpkgs.legacyPackages.${system});
+    eachSystem = f: lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
   in {
     formatter = eachSystem (pkgs: pkgs.alejandra);
 
@@ -47,7 +45,9 @@
 
     nixConfig = {
       extra-substituters = ["https://walker-git.cachix.org"];
-      extra-trusted-public-keys = ["walker-git.cachix.org-1:vmC0ocfPWh0S/vRAQGtChuiZBTAe4wiKDeyyXM0/7pM="];
+      extra-trusted-public-keys = [
+        "walker-git.cachix.org-1:vmC0ocfPWh0S/vRAQGtChuiZBTAe4wiKDeyyXM0/7pM="
+      ];
     };
   };
 }
