@@ -75,9 +75,12 @@ in {
 
       home.packages = [cfg.package];
 
-      xdg.configFile."walker/config.toml".source = mkIf (cfg.config != {}) (
-        tomlFormat.generate "walker-config.toml" cfg.config
-      );
+      xdg.configFile."walker/config.toml" = mkIf (cfg.config != {}) {
+        source = tomlFormat.generate "walker-config.toml" cfg.config;
+        onChange = ''
+          ${pkgs.procps}/bin/pkill -u $USER -USR2 walker || true
+        '';
+      };
 
       systemd.user.services.walker = mkIf cfg.runAsService {
         Unit = {
